@@ -6,6 +6,7 @@ import { Heart, MessageCircle, Share2, Bookmark, MoreHorizontal } from "lucide-r
 import { Badge } from "./ui/batch";
 import { Button } from "./ui/button";
 import { useState, useEffect } from "react";
+import { useThemeStyles } from "./ThemeProvider";
 
 const samplePosts = [
   {
@@ -78,13 +79,14 @@ const samplePosts = [
 function PostCard({ post, index }: { post: typeof samplePosts[0]; index: number }) {
   const [isLiked, setIsLiked] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
+  const styles = useThemeStyles();
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1 }}
-      className="bg-white rounded-2xl p-5 shadow-sm border border-sky-100 relative"
+      className={`${styles.tw('bg-white', 'bg-slate-800')} rounded-2xl p-5 shadow-sm border ${styles.tw('border-sky-100', 'border-sky-900')} relative`}
     >
       {post.isNew && (
         <motion.div
@@ -105,7 +107,7 @@ function PostCard({ post, index }: { post: typeof samplePosts[0]; index: number 
       {/* Post header */}
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-3 flex-1">
-          <Avatar className="w-11 h-11 border-2 border-sky-100">
+          <Avatar className={`w-11 h-11 border-2 ${styles.tw('border-sky-100', 'border-sky-900')}`}>
             <AvatarImage src={post.avatar} alt={post.author} />
             <AvatarFallback>{post.author[0]}</AvatarFallback>
           </Avatar>
@@ -128,7 +130,7 @@ function PostCard({ post, index }: { post: typeof samplePosts[0]; index: number 
       <p className="text-sm leading-relaxed mb-4">{post.content}</p>
 
       {/* Post stats */}
-      <div className="flex items-center gap-4 text-xs text-muted-foreground mb-3 pb-3 border-b border-sky-50">
+      <div className={`flex items-center gap-4 text-xs text-muted-foreground mb-3 pb-3 border-b ${styles.tw('border-sky-50', 'border-sky-900')}`}>
         <span>{post.likes.toLocaleString()} likes</span>
         <span>{post.comments} comments</span>
         <span>{post.shares} shares</span>
@@ -140,7 +142,7 @@ function PostCard({ post, index }: { post: typeof samplePosts[0]; index: number 
           whileTap={{ scale: 0.9 }}
           onClick={() => setIsLiked(!isLiked)}
           className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors ${
-            isLiked ? "text-red-500" : "text-muted-foreground hover:bg-sky-50"
+            isLiked ? "text-red-500" : `text-muted-foreground ${styles.hover.bg}`
           }`}
         >
           <Heart className={`w-4 h-4 ${isLiked ? "fill-red-500" : ""}`} />
@@ -148,14 +150,14 @@ function PostCard({ post, index }: { post: typeof samplePosts[0]; index: number 
         </motion.button>
         <motion.button
           whileTap={{ scale: 0.9 }}
-          className="flex items-center gap-2 px-3 py-2 rounded-lg text-muted-foreground hover:bg-sky-50 transition-colors"
+          className={`flex items-center gap-2 px-3 py-2 rounded-lg text-muted-foreground ${styles.hover.bg} transition-colors`}
         >
           <MessageCircle className="w-4 h-4" />
           <span className="text-xs">Comment</span>
         </motion.button>
         <motion.button
           whileTap={{ scale: 0.9 }}
-          className="flex items-center gap-2 px-3 py-2 rounded-lg text-muted-foreground hover:bg-sky-50 transition-colors"
+          className={`flex items-center gap-2 px-3 py-2 rounded-lg text-muted-foreground ${styles.hover.bg} transition-colors`}
         >
           <Share2 className="w-4 h-4" />
           <span className="text-xs">Share</span>
@@ -164,7 +166,7 @@ function PostCard({ post, index }: { post: typeof samplePosts[0]; index: number 
           whileTap={{ scale: 0.9 }}
           onClick={() => setIsSaved(!isSaved)}
           className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors ${
-            isSaved ? "text-sky-500" : "text-muted-foreground hover:bg-sky-50"
+            isSaved ? "text-sky-500" : `text-muted-foreground ${styles.hover.bg}`
           }`}
         >
           <Bookmark className={`w-4 h-4 ${isSaved ? "fill-sky-500" : ""}`} />
@@ -178,6 +180,7 @@ export default function WallPreview() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [dragStart, setDragStart] = useState(0);
   const x = useMotionValue(0);
+  const styles = useThemeStyles();
   const background = useTransform(
     x,
     [-200, 0, 200],
@@ -203,7 +206,7 @@ export default function WallPreview() {
   };
 
   return (
-    <section className="px-6 py-20 overflow-hidden bg-gradient-to-b from-background via-sky-50/30 to-background">
+    <section className={`px-6 py-20 overflow-hidden bg-gradient-to-b from-background ${styles.tw('via-sky-50/30', 'via-sky-950/20')} to-background`}>
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -238,9 +241,9 @@ export default function WallPreview() {
               {/* Phone outer frame */}
               <div className="absolute inset-0 bg-gradient-to-br from-slate-800 to-slate-900 rounded-[3rem] shadow-2xl p-3">
                 {/* Phone screen */}
-                <div className="relative w-full h-full bg-white rounded-[2.5rem] overflow-hidden">
+                <div className={`relative w-full h-full ${styles.tw('bg-white', 'bg-slate-900')} rounded-[2.5rem] overflow-hidden`}>
                   {/* Status bar */}
-                  <div className="absolute top-0 left-0 right-0 h-12 bg-white z-20 flex items-center justify-between px-6">
+                  <div className={`absolute top-0 left-0 right-0 h-12 ${styles.tw('bg-white', 'bg-slate-900')} z-20 flex items-center justify-between px-6`}>
                     <span className="text-xs">9:41</span>
                     <div className="flex items-center gap-1">
                       <div className="w-4 h-4 border-2 border-black rounded-sm"></div>
@@ -253,7 +256,7 @@ export default function WallPreview() {
                   </div>
 
                   {/* App header */}
-                  <div className="absolute top-12 left-0 right-0 h-14 bg-white border-b border-sky-100 z-20 flex items-center justify-between px-4">
+                  <div className={`absolute top-12 left-0 right-0 h-14 ${styles.tw('bg-white', 'bg-slate-900')} border-b ${styles.tw('border-sky-100', 'border-sky-900')} z-20 flex items-center justify-between px-4`}>
                     <div className="flex items-center gap-2">
                       <div className="w-8 h-8 bg-sky-500 rounded-lg flex items-center justify-center">
                         <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -356,7 +359,7 @@ export default function WallPreview() {
                   transition={{ delay: i * 0.1 }}
                   className="flex gap-4"
                 >
-                  <div className="flex-shrink-0 w-12 h-12 bg-sky-50 rounded-xl flex items-center justify-center text-2xl">
+                  <div className={`flex-shrink-0 w-12 h-12 ${styles.tw('bg-sky-50', 'bg-sky-900/30')} rounded-xl flex items-center justify-center text-2xl`}>
                     {feature.icon}
                   </div>
                   <div>

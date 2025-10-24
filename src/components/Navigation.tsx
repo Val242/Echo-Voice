@@ -1,37 +1,75 @@
-import React from "react";
-import { MessageSquare } from "lucide-react";
-import { Button } from "./ui/button"; // import your reusable button
+"use client"
+
+import { motion } from "motion/react";
+import { Button } from "./ui/button";
+import { MessageSquare, Menu, Moon, Sun } from "lucide-react";
+import { useTheme, useThemeStyles } from "./ThemeProvider";
+import Link from "next/link";
 
 export default function Navigation() {
+  const { theme, toggleTheme } = useTheme();
+  const styles = useThemeStyles();
+
   return (
-    <div>
-      <nav className="flex flex-col md:flex-row items-center justify-between mx-4 md:mx-8 mt-8 gap-4 md:gap-0">
-        {/* Logo */}
-        <div className="flex items-center gap-2">
-          <div className="w-10 h-10 bg-sky-500 rounded-xl flex items-center justify-center shadow-lg shadow-sky-500/20">
-            <MessageSquare className="w-6 h-6 text-white" />
+    <motion.nav
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+      className={`fixed top-0 left-0 right-0 z-50 ${styles.glass.nav} border-b border-border`}
+    >
+      <div className="max-w-7xl mx-auto px-6 py-4">
+        <div className="flex items-center justify-between">
+          {/* Logo */}
+          <div className="flex items-center gap-2">
+            <div className="w-10 h-10 bg-sky-500 rounded-xl flex items-center justify-center shadow-lg shadow-sky-500/20">
+              <MessageSquare className="w-6 h-6 text-white" />
+            </div>
+            <span className="text-xl">EchoBoard</span>
           </div>
-          <span className="text-xl font-semibold">EchoBoard</span>
-        </div>
 
-        {/* Menu */}
-        <div className="hidden md:flex items-center gap-8">
-          <div>Features</div>
-          <div>Preview</div>
-          <div>About</div>
-          <div>Contact</div>
-        </div>
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center gap-8">
+            <a href="#features" className="text-sm hover:text-sky-500 transition-colors">
+              Features
+            </a>
+            <a href="#preview" className="text-sm hover:text-sky-500 transition-colors">
+              Preview
+            </a>
+            <a href="#about" className="text-sm hover:text-sky-500 transition-colors">
+              About
+            </a>
+            <a href="#contact" className="text-sm hover:text-sky-500 transition-colors">
+              Contact
+            </a>
+          </div>
 
-        {/* Reusable Button */}
-        <div className="flex gap-2">
-            <Button variant="secondary" size="md">
-            Sign In
-          </Button>
-          <Button variant="primary" size="md">
-            Get Started
-          </Button>
+          {/* CTA Buttons */}
+          <div className="flex items-center gap-3">
+            {/* Theme Toggle */}
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={toggleTheme}
+              className={`w-10 h-10 rounded-lg bg-muted ${styles.hover.bg} flex items-center justify-center transition-colors`}
+              aria-label="Toggle theme"
+            >
+              {theme === "light" ? (
+                <Moon className="w-5 h-5" />
+              ) : (
+                <Sun className="w-5 h-5" />
+              )}
+            </motion.button>
+            
+            <Button variant="ghost" size="sm" className="hidden sm:flex">
+              <Link href="/sign-in">Sign In</Link>
+            </Button>
+            <Button size="sm">Get Started</Button>
+            <Button variant="ghost" size="sm" className="md:hidden">
+              <Menu className="w-5 h-5" />
+            </Button>
+          </div>
         </div>
-      </nav>
-    </div>
+      </div>
+    </motion.nav>
   );
 }

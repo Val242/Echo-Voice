@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { Button } from "./ui/button";
 import { MessageSquare, Sparkles, Heart, MessageCircle, TrendingUp } from "lucide-react";
+import { useThemeStyles } from "./ThemeProvider";
 
 const floatingCards = [
   {
@@ -40,15 +41,17 @@ const floatingCards = [
 ];
 
 export default function Hero() {
+  const styles = useThemeStyles();
+
   return (
     <section className="relative overflow-hidden min-h-screen flex items-center">
       {/* Animated background gradient */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-br from-sky-50 via-blue-50/30 to-background" />
+      <div className="absolute inset-0 -z-10 theme-gradient-hero" />
       
       {/* Animated background blobs */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
         <motion.div
-          className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-sky-400/20 rounded-full blur-3xl"
+          className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-sky-400 theme-blob rounded-full blur-3xl"
           animate={{
             scale: [1, 1.2, 1],
             x: [0, 50, 0],
@@ -61,7 +64,7 @@ export default function Hero() {
           }}
         />
         <motion.div
-          className="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] bg-blue-400/15 rounded-full blur-3xl"
+          className="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] bg-blue-400 theme-blob rounded-full blur-3xl"
           animate={{
             scale: [1.2, 1, 1.2],
             x: [0, -30, 0],
@@ -108,7 +111,7 @@ export default function Hero() {
               ease: "easeInOut",
               delay: card.delay,
             }}
-            className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 shadow-lg border border-sky-100 max-w-[240px]"
+            className={`${styles.glass.card} rounded-2xl p-4 ${styles.shadow.card} border ${styles.tw('border-sky-100', 'border-sky-900')} max-w-[240px]`}
           >
             <p className="text-sm mb-3">{card.content}</p>
             <div className="flex items-center justify-between">
@@ -135,7 +138,7 @@ export default function Hero() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2 }}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white shadow-lg border border-sky-100"
+            className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full ${styles.glass.card} shadow-lg border ${styles.tw('border-sky-100', 'border-sky-900')}`}
           >
             <motion.div
               animate={{
@@ -149,8 +152,8 @@ export default function Hero() {
             >
               <Sparkles className="w-4 h-4 text-sky-500" />
             </motion.div>
-            <span className="text-sm text-sky-900">Where memories echo forever</span>
-            <div className="flex items-center gap-1 px-2 py-0.5 bg-sky-50 rounded-full">
+            <span className={`text-sm ${styles.tw('text-sky-900', 'text-sky-100')}`}>Where memories echo forever</span>
+            <div className={`flex items-center gap-1 px-2 py-0.5 ${styles.tw('bg-sky-50', 'bg-sky-900/50')} rounded-full`}>
               <TrendingUp className="w-3 h-3 text-sky-600" />
               <span className="text-xs text-sky-700">Live</span>
             </div>
@@ -165,7 +168,7 @@ export default function Hero() {
           >
             <h1 className="text-6xl md:text-7xl lg:text-8xl tracking-tight leading-none">
               Your Digital
-              <span className="block mt-3 bg-gradient-to-r from-sky-500 via-blue-500 to-sky-400 bg-clip-text text-transparent">
+              <span className={`block mt-3 bg-gradient-to-r ${styles.gradient.text} bg-clip-text text-transparent`}>
                 Memory Wall
               </span>
             </h1>
@@ -179,7 +182,7 @@ export default function Hero() {
             className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed"
           >
             Share your thoughts, memories, and reflections in real-time.
-            EchoBoard is more than a social wall it's a living, breathing
+            EchoBoard is more than a social wall—it's a living, breathing
             digital time capsule where every voice matters.
           </motion.p>
 
@@ -190,7 +193,7 @@ export default function Hero() {
             transition={{ delay: 0.5 }}
             className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4"
           >
-            <Button size="lg" className="min-w-[200px] h-12 group shadow-lg shadow-sky-500/20">
+            <Button size="lg" className={`min-w-[200px] h-12 group ${styles.shadow.button}`}>
               Get Started Free
               <motion.span
                 className="ml-2 inline-block"
@@ -205,9 +208,9 @@ export default function Hero() {
               </motion.span>
             </Button>
             <Button 
-              variant="secondary" 
+              variant="outline" 
               size="lg" 
-              className="min-w-[200px] h-12 border-2 hover:bg-sky-50 hover:border-sky-300"
+              className={`min-w-[200px] h-12 border-2 ${styles.hover.bg} ${styles.hover.border}`}
             >
               <MessageSquare className="w-4 h-4 mr-2" />
               Watch Demo
@@ -260,7 +263,7 @@ export default function Hero() {
                 transition={{ delay: 0.8 + i * 0.1 }}
                 className="relative"
               >
-                <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 border border-sky-100 shadow-sm">
+                <div className={`${styles.glass.card} rounded-2xl p-6 border ${styles.tw('border-sky-100', 'border-sky-900')} shadow-sm`}>
                   <div className="text-2xl mb-2">{stat.icon}</div>
                   <div className="text-sky-500 mb-1">{stat.value}</div>
                   <div className="text-xs text-muted-foreground">{stat.label}</div>

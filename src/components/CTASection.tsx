@@ -1,16 +1,18 @@
 "use client"
-
 import { motion } from "motion/react";
 import { Button } from "./ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
+import { useThemeStyles } from "./ThemeProvider";
 
 export default function CTASection() {
+  const styles = useThemeStyles();
+
   return (
-    <section className="px-6 py-20 bg-gradient-to-br from-sky-50 via-blue-50/50 to-sky-50 relative overflow-hidden">
+    <section className={`px-6 py-20 bg-gradient-to-br ${styles.tw('from-sky-50 via-blue-50/50 to-sky-50', 'from-sky-950/30 via-blue-950/20 to-sky-950/30')} relative overflow-hidden`}>
       {/* Decorative elements */}
       <div className="absolute inset-0 -z-10">
         <motion.div
-          className="absolute top-0 left-1/4 w-64 h-64 bg-sky-500/15 rounded-full blur-3xl"
+          className="absolute top-0 left-1/4 w-64 h-64 bg-sky-500 theme-blob rounded-full blur-3xl"
           animate={{
             y: [0, 50, 0],
             opacity: [0.3, 0.5, 0.3],
@@ -22,7 +24,7 @@ export default function CTASection() {
           }}
         />
         <motion.div
-          className="absolute bottom-0 right-1/4 w-80 h-80 bg-sky-400/20 rounded-full blur-3xl"
+          className="absolute bottom-0 right-1/4 w-80 h-80 bg-sky-400 theme-blob rounded-full blur-3xl"
           animate={{
             y: [0, -50, 0],
             opacity: [0.2, 0.4, 0.2],

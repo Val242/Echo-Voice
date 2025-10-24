@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { Zap, Lock, Heart, Users, Sparkles, MessageCircle } from "lucide-react";
 import { Card } from "./ui/card";
+import { useThemeStyles } from "./ThemeProvider";
 
 const features = [
   {
@@ -56,8 +57,10 @@ const features = [
 ];
 
 export default function Features() {
+  const styles = useThemeStyles();
+
   return (
-    <section className="px-6 py-20 bg-sky-50/30">
+    <section className={`px-6 py-20 ${styles.tw('bg-sky-50/30', 'bg-slate-900/50')}`}>
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -84,7 +87,7 @@ export default function Features() {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1, duration: 0.5 }}
               >
-                <Card className="p-6 h-full hover:shadow-lg transition-shadow duration-300 border-sky-100">
+                <Card className={`p-6 h-full hover:shadow-lg transition-shadow duration-300 ${styles.tw('border-sky-100 bg-card', 'border-sky-900 bg-slate-800/50')}`}>
                   <div
                     className={`w-12 h-12 rounded-lg bg-gradient-to-br ${feature.gradient} flex items-center justify-center mb-4`}
                   >

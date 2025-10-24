@@ -1,5 +1,14 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "../app/globals.css";
+import { ThemeProvider } from "../components/ThemeProvider";
+import {
+  ClerkProvider,
+  SignInButton,
+  SignUpButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from '@clerk/nextjs'
 
 const geistSans = Geist(
   { 
@@ -19,14 +28,19 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
+    <ClerkProvider>
     <html lang="en">
-      <body
+      <ThemeProvider>
+         <body
       className={`${geistSans.variable} ${geistMono.variable} `}
       >
+       
 
         {children}
 
       </body>
+      </ThemeProvider>
     </html>
+    </ClerkProvider>
   )
 }

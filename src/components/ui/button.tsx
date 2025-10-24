@@ -1,4 +1,6 @@
+"use client";
 import React from "react";
+import { useTheme } from "../ThemeProvider"; // import your ThemeProvider hook
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: "primary" | "secondary" | "danger" | "ghost";
@@ -12,13 +14,29 @@ export const Button: React.FC<ButtonProps> = ({
   className = "",
   ...props
 }) => {
-  // Define variant styles
+  const { theme } = useTheme(); // get the current theme ("light" or "dark")
+
+  // Define base styles for each variant, adapted for light/dark mode
   const variantStyles: Record<string, string> = {
-    primary: "bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800",
+    primary:
+      theme === "dark"
+        ? "bg-blue-500 text-white hover:bg-blue-600 active:bg-blue-700"
+        : "bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800",
+
     secondary:
-      "bg-gray-200 text-gray-800 hover:bg-gray-300 active:bg-gray-400",
-    danger: "bg-red-600 text-white hover:bg-red-700 active:bg-red-800",
-    ghost: "bg-transparent text-gray-800 hover:bg-gray-100 active:bg-gray-200",
+      theme === "dark"
+        ? "bg-gray-700 text-gray-100 hover:bg-gray-600 active:bg-gray-500"
+        : "bg-gray-200 text-gray-800 hover:bg-gray-300 active:bg-gray-400",
+
+    danger:
+      theme === "dark"
+        ? "bg-red-500 text-white hover:bg-red-600 active:bg-red-700"
+        : "bg-red-600 text-white hover:bg-red-700 active:bg-red-800",
+
+    ghost:
+      theme === "dark"
+        ? "bg-transparent text-gray-100 hover:bg-gray-800 active:bg-gray-700"
+        : "bg-transparent text-gray-800 hover:bg-gray-100 active:bg-gray-200",
   };
 
   // Define size styles

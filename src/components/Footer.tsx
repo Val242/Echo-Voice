@@ -124,21 +124,21 @@ export default function Footer() {
               <div className="space-y-3">
                 <div className="flex items-center gap-3 text-slate-400 hover:text-sky-400 transition-colors">
                   <Mail className="w-4 h-4 flex-shrink-0" />
-                  <a href="mailto:akumengwene@gmail.com" className="text-sm">
-                    akumengwene@gmail.com
+                  <a href="mailto:hello@echoboard.io" className="text-sm">
+                    hello@echoboard.io
                   </a>
                 </div>
                 <div className="flex items-center gap-3 text-slate-400 hover:text-sky-400 transition-colors">
                   <Phone className="w-4 h-4 flex-shrink-0" />
-                  <a href="tel:+237 671369673" className="text-sm">
-                    +237 671369673
+                  <a href="tel:+1234567890" className="text-sm">
+                    +1 (234) 567-890
                   </a>
                 </div>
                 <div className="flex items-start gap-3 text-slate-400">
                   <MapPin className="w-4 h-4 flex-shrink-0 mt-0.5" />
                   <span className="text-sm">
-                    Molyko<br />
-                    Buea, Cameroon
+                    123 Memory Lane<br />
+                    San Francisco, CA 94102
                   </span>
                 </div>
               </div>
