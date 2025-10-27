@@ -1,12 +1,22 @@
-"use client"
+"use client";
 
 import { motion } from "motion/react";
 import { Button } from "./ui/button";
-import { MessageSquare, Menu, Moon, Sun } from "lucide-react";
+import { MessageSquare, Menu, Moon, Sun, LogIn, LayoutDashboard } from "lucide-react";
 import { useTheme, useThemeStyles } from "./ThemeProvider";
 import Link from "next/link";
 
-export default function Navigation() {
+interface NavigationProps {
+  hasCompletedOnboarding: boolean;
+  onGetStarted: () => void;
+  onGoToDashboard: () => void;
+}
+
+export default function Navigation({
+  hasCompletedOnboarding,
+  onGetStarted,
+  onGoToDashboard,
+}: NavigationProps) {
   const { theme, toggleTheme } = useTheme();
   const styles = useThemeStyles();
 
@@ -59,11 +69,31 @@ export default function Navigation() {
                 <Sun className="w-5 h-5" />
               )}
             </motion.button>
-            
-            <Button variant="ghost" size="sm" className="hidden sm:flex">
-              <Link href="/sign-in">Sign In</Link>
-            </Button>
-            <Button size="sm">Get Started</Button>
+
+            {/* Conditional buttons based on onboarding */}
+            {hasCompletedOnboarding ? (
+              <>
+                <Button variant="ghost" size="sm" className="hidden sm:flex">
+                  <LogIn className="w-4 h-4 mr-2" />
+                  <Link href="/sign-in">Sign In</Link>
+                </Button>
+                <Button size="sm" onClick={onGoToDashboard}>
+                  <LayoutDashboard className="w-4 h-4 mr-2" />
+                  Dashboard
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button variant="ghost" size="sm" className="hidden sm:flex">
+                  Sign In
+                </Button>
+                <Button size="sm" onClick={onGetStarted}>
+                  Get Started
+                </Button>
+              </>
+            )}
+
+            {/* Mobile menu */}
             <Button variant="ghost" size="sm" className="md:hidden">
               <Menu className="w-5 h-5" />
             </Button>

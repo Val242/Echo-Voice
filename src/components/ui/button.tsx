@@ -3,7 +3,7 @@ import React from "react";
 import { useTheme } from "../ThemeProvider"; // import your ThemeProvider hook
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  variant?: "primary" | "secondary" | "danger" | "ghost";
+  variant?: "primary" | "secondary" | "danger" | "ghost" | "outline";
   size?: "sm" | "md" | "lg";
 };
 
@@ -37,6 +37,11 @@ export const Button: React.FC<ButtonProps> = ({
       theme === "dark"
         ? "bg-transparent text-gray-100 hover:bg-gray-800 active:bg-gray-700"
         : "bg-transparent text-gray-800 hover:bg-gray-100 active:bg-gray-200",
+
+    outline:
+      theme === "dark"
+        ? "dark:bg-input/30 dark:border-input dark:hover:bg-input/50"
+        : "border bg-background text-foreground hover:bg-accent hover:text-accent-foreground",
   };
 
   // Define size styles
@@ -48,7 +53,7 @@ export const Button: React.FC<ButtonProps> = ({
 
   return (
     <button
-      className={`rounded-md font-medium transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${variantStyles[variant]} ${sizeStyles[size]} ${className}`}
+      className={`rounded-md font-medium transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${variantStyles[variant]} ${sizeStyles[size]} ${className} flex items-center justify-center gap-2`}
       {...props}
     >
       {children}
