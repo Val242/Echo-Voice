@@ -3,7 +3,7 @@ import React from "react";
 import { useTheme } from "../ThemeProvider"; // import your ThemeProvider hook
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  variant?: "primary" | "secondary" | "danger" | "ghost" | "outline";
+  variant?: "primary" | "secondary" | "danger" | "ghost" | "outline" | "destructive";
   size?: "sm" | "md" | "lg" | "icon";
 };
 
