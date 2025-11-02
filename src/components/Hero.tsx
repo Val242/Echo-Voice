@@ -96,7 +96,7 @@ export default function Hero({ hasCompletedOnboarding, onGetStarted, onGoToDashb
           {/* Heading */}
           <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="text-6xl md:text-7xl lg:text-8xl tracking-tight leading-none">
             Your Digital
-            <span className={`block mt-3 bg-gradient-to-r ${styles.gradient.text} bg-clip-text text-transparent`}>
+            <span className={`block mt-3 bg-linear-to-r ${styles.gradient.text} bg-clip-text text-transparent`}>
               Memory Wall
             </span>
           </motion.h1>
@@ -122,7 +122,7 @@ export default function Hero({ hasCompletedOnboarding, onGetStarted, onGoToDashb
                   <motion.span className="ml-2 inline-block" animate={{ x: [0, 4, 0] }} transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}>→</motion.span>
                 </Button>
                 <Button variant="outline" size="lg" className={`min-w-[200px] h-12 border-2 ${styles.hover.bg} ${styles.hover.border}`}>
-                  <MessageSquare className="w-4 h-4 mr-2" /> <span> Watch Demo</span>
+                  <MessageSquare className="w-4 h-4 mr-2" /> <span className="r"> Watch Demo</span>
                 </Button>
               </>
             )}
@@ -131,7 +131,7 @@ export default function Hero({ hasCompletedOnboarding, onGetStarted, onGoToDashb
       </div>
 
       {/* Bottom gradient fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-linear-to-t from-background to-transparent" />
     </section>
   );
 }

@@ -1,42 +1,41 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { OnboardingFlow } from "./OnboardingFlow";
 import Navigation from "./Navigation";
 import Hero from "./Hero";
 import CTASection from "./CTASection";
 import Dashboard from "./Dashboard";
+import { useQuery } from "@tanstack/react-query";
 
 export function LandingClient() {
   const { user, isLoaded } = useUser();
-
   const [showOnboarding, setShowOnboarding] = useState(false);
-  const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(false);
   const [showDashboard, setShowDashboard] = useState(false);
 
-  // ✅ Load onboarding completion state from Clerk (or localStorage fallback)
-  useEffect(() => {
-    if (!isLoaded) return;
+  // ✅ Use React Query for onboarding status
+  const { data: hasCompletedOnboarding = false } = useQuery({
+    queryKey: ["onboarding-status", user?.id],
+    queryFn: async () => {
+      if (!isLoaded || !user) return false;
 
-    const fetchOnboardingStatus = async () => {
-      if (user) {
-        const clerkFlag = user.unsafeMetadata?.hasCompletedOnboarding;
-        if (clerkFlag) {
-          setHasCompletedOnboarding(true);
-          localStorage.setItem("echoboard-onboarding-completed", "true");
-        } else {
-          const localFlag =
-            localStorage.getItem("echoboard-onboarding-completed") === "true";
-          setHasCompletedOnboarding(localFlag);
-        }
+      // 1️⃣ Check Clerk metadata first
+      const clerkFlag = user.unsafeMetadata?.hasCompletedOnboarding;
+      if (clerkFlag) {
+        localStorage.setItem("echoboard-onboarding-completed", "true");
+        return true;
       }
-    };
 
-    fetchOnboardingStatus();
-  }, [user, isLoaded]);
+      // 2️⃣ Fallback to localStorage if metadata not found
+      const localFlag =
+        localStorage.getItem("echoboard-onboarding-completed") === "true";
+      return localFlag;
+    },
+    enabled: isLoaded && !!user, // only runs when user is ready
+  });
 
-  // ✅ Placeholder if no user is logged in
+  // ✅ Placeholder user (for logged-out visitors)
   const placeholderUser = {
     name: "Guest User",
     email: "guest@example.com",
@@ -60,13 +59,14 @@ export function LandingClient() {
 
   const handleOnboardingComplete = async () => {
     setShowOnboarding(false);
-    setHasCompletedOnboarding(true);
     localStorage.setItem("echoboard-onboarding-completed", "true");
 
-    // ✅ Update Clerk metadata so onboarding isn’t repeated
     if (user) {
       await user.update({
-        unsafeMetadata: { ...user.unsafeMetadata, hasCompletedOnboarding: true },
+        unsafeMetadata: {
+          ...user.unsafeMetadata,
+          hasCompletedOnboarding: true,
+        },
       });
     }
   };
@@ -85,7 +85,7 @@ export function LandingClient() {
     localStorage.removeItem("onboardingStep");
   };
 
-  // === RENDER LOGIC ===
+  // === CONDITIONAL RENDER ===
   if (showDashboard) {
     return <Dashboard user={displayUser} onSignOut={handleSignOut} />;
   }

@@ -4,7 +4,7 @@ import { useTheme } from "../ThemeProvider"; // import your ThemeProvider hook
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: "primary" | "secondary" | "danger" | "ghost" | "outline";
-  size?: "sm" | "md" | "lg";
+  size?: "sm" | "md" | "lg" | "icon";
 };
 
 export const Button: React.FC<ButtonProps> = ({
@@ -49,6 +49,7 @@ export const Button: React.FC<ButtonProps> = ({
     sm: "px-3 py-1.5 text-sm",
     md: "px-4 py-2 text-base",
     lg: "px-6 py-3 text-lg",
+    icon: "size-9 rounded-md",
   };
 
   return (

@@ -1,9 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "../app/globals.css";
 import { ThemeProvider } from "../components/ThemeProvider";
-import {
-  ClerkProvider,
-} from "@clerk/nextjs";
+import { ClerkProvider } from "@clerk/nextjs";
 import { TarnstackProvider } from "@/components/providers.tsx/tarnstack-provider";
 
 const geistSans = Geist({
@@ -17,20 +15,18 @@ const geistMono = Geist_Mono({
 });
 
 export default function RootLayout({
-  children, // where the page content will go
+  children,
 }: {
   children: React.ReactNode;
 }) {
   return (
     <ClerkProvider>
       <html lang="en">
-        <ThemeProvider>
-          <TarnstackProvider>
-            <body className={`${geistSans.variable} ${geistMono.variable}`}>
-              {children}
-            </body>
-          </TarnstackProvider>
-        </ThemeProvider>
+        <body className={`${geistSans.variable} ${geistMono.variable}`}>
+          <ThemeProvider>
+            <TarnstackProvider>{children}</TarnstackProvider>
+          </ThemeProvider>
+        </body>
       </html>
     </ClerkProvider>
   );
