@@ -187,7 +187,7 @@ export function SettingsView() {
                       <Switch
                         id="email-notif"
                         checked={preferences.emailNotifications}
-                        onCheckedChange={(checked) =>
+                        onChange={(checked) =>
                           setPreferences({
                             ...preferences,
                             emailNotifications: checked,
@@ -206,7 +206,7 @@ export function SettingsView() {
                       <Switch
                         id="push-notif"
                         checked={preferences.pushNotifications}
-                        onCheckedChange={(checked) =>
+                        onChange={(checked) =>
                           setPreferences({
                             ...preferences,
                             pushNotifications: checked,
@@ -225,10 +225,10 @@ export function SettingsView() {
                       <Switch
                         id="message-requests"
                         checked={preferences.messageRequests}
-                        onCheckedChange={(checked) =>
+                        onChange={(e) =>
                           setPreferences({
                             ...preferences,
-                            messageRequests: checked,
+                            messageRequests: (e.target as HTMLInputElement).checked,
                           })
                         }
                       />
@@ -272,7 +272,7 @@ export function SettingsView() {
                       <Switch
                         id="public-profile"
                         checked={preferences.publicProfile}
-                        onCheckedChange={(checked) =>
+                        onChange={(checked) =>
                           setPreferences({
                             ...preferences,
                             publicProfile: checked,
@@ -291,7 +291,7 @@ export function SettingsView() {
                       <Switch
                         id="show-directory"
                         checked={preferences.showInDirectory}
-                        onCheckedChange={(checked) =>
+                        onChange={(checked) =>
                           setPreferences({
                             ...preferences,
                             showInDirectory: checked,
@@ -310,10 +310,10 @@ export function SettingsView() {
                       <Switch
                         id="tagging"
                         checked={preferences.tagging}
-                        onCheckedChange={(checked) =>
+                        onChange={(e) =>
                           setPreferences({
                             ...preferences,
-                            tagging: checked,
+                            tagging: (e.target as HTMLInputElement).checked,
                           })
                         }
                       />
@@ -331,7 +331,7 @@ export function SettingsView() {
                         <strong>Privacy Notice:</strong>
                       </p>
                       <p className="text-sm text-muted-foreground">
-                        Your privacy is important to us. We'll never share your
+                        Your privacy is important to us. We&apos;ll never share your
                         personal information without your explicit consent.
                       </p>
                     </div>
@@ -365,7 +365,7 @@ export function SettingsView() {
 
                   <div className={`p-4 rounded-lg border ${styles.tw("border-sky-200 bg-sky-50", "border-sky-800 bg-sky-900/20")}`}>
                     <div className="flex items-start gap-3">
-                      <Palette className="w-5 h-5 text-sky-500 flex-shrink-0 mt-0.5" />
+                      <Palette className="w-5 h-5 text-sky-500 shrink-0 mt-0.5" />
                       <div>
                         <p className="text-sm mb-1">
                           <strong>Theme:</strong>
