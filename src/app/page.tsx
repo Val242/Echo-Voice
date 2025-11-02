@@ -1,21 +1,32 @@
 import { LandingClient } from "@/components/LandingPageClient";
-import  Features  from "@/components/Features";
-import  WallPreview  from "@/components/WallPreview";
-import  Footer  from "@/components/Footer";
-import { ThemeProvider } from "@/components/ThemeProvider";
+import FeedClient from "@/components/FeedClient";
+import { currentUser } from "@clerk/nextjs/server";
 
-export default function LandingPage() {
-  return (
-    <ThemeProvider>
-      <div className="min-h-screen bg-background">
-        {/* Client component handles interactive logic */}
-        <LandingClient />
+export default async function RootPage() {
+  const user = await currentUser();
 
-        {/* Server-rendered components */}
-        <Features />
-        <WallPreview />
-        <Footer />
-      </div>
-    </ThemeProvider>
-  );
+  // If no user, show landing page
+  if (!user) {
+    return <LandingClient />;
+  }
+
+  // Check onboarding status from Clerk metadata
+  const hasCompletedOnboarding = user.unsafeMetadata?.hasCompletedOnboarding ?? false;
+
+  // Only pass plain JSON-serializable data
+  const plainUser = {
+    id: user.id,
+    fullName: user.fullName ?? "Anonymous User",
+    email: user.primaryEmailAddress?.emailAddress ?? "",
+    imageUrl: user.imageUrl ?? "/avatar.png",
+    unsafeMetadata: user.unsafeMetadata ?? {},
+  };
+
+  // If user has completed onboarding, show feed/dashboard
+  if (hasCompletedOnboarding) {
+    return <FeedClient user={plainUser} />;
+  }
+
+  // Otherwise show landing + onboarding
+  return <LandingClient />;
 }

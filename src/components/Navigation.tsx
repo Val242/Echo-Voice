@@ -4,25 +4,22 @@ import { Button } from "./ui/button";
 import { MessageSquare, Menu, Moon, Sun, LayoutDashboard } from "lucide-react";
 import { useTheme, useThemeStyles } from "./ThemeProvider";
 import Link from "next/link";
-import { SignedIn, SignedOut, SignOutButton, useClerk } from "@clerk/nextjs";
+import { SignedIn, SignedOut, useClerk } from "@clerk/nextjs";
 import { useCallback } from "react";
 
 interface NavigationProps {
   hasCompletedOnboarding: boolean;
   onGetStarted: () => void;
-  onGoToDashboard: () => void;
 }
 
 export default function Navigation({
   hasCompletedOnboarding,
   onGetStarted,
-  onGoToDashboard,
 }: NavigationProps) {
   const { theme, toggleTheme } = useTheme();
   const styles = useThemeStyles();
-  const { signOut } = useClerk();  // ✅ get signOut from useClerk()
+  const { signOut } = useClerk();
 
-  // Clean up your specific localStorage keys on sign-out
   const handleSignOut = useCallback(() => {
     try {
       localStorage.removeItem("echoboard-onboarding-completed");
@@ -32,10 +29,8 @@ export default function Navigation({
       console.error("Failed to clear localStorage on sign-out:", err);
     }
 
-    // Actually sign out using Clerk
     signOut({ redirectUrl: "/sign-in" });
   }, [signOut]);
-  console.log(hasCompletedOnboarding)
 
   return (
     <nav
@@ -78,7 +73,7 @@ export default function Navigation({
               {theme === "light" ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
             </button>
 
-            {/* If user is signed out */}
+            {/* Signed out */}
             <SignedOut>
               <Button variant="ghost" size="sm" className="hidden sm:flex">
                 <Link href="/sign-in">Sign In</Link>
@@ -88,14 +83,18 @@ export default function Navigation({
               </Button>
             </SignedOut>
 
-            {/* If user is signed in */}
+            {/* Signed in */}
             <SignedIn>
               {hasCompletedOnboarding ? (
                 <>
-                  <Button size="sm" onClick={onGoToDashboard}>
-                    <LayoutDashboard className="w-4 h-4 mr-2" />
-                    Dashboard
-                  </Button>
+                  {/* Link to feed/dashboard */}
+                  <Link href="/feed" passHref>
+                    <Button size="sm">
+                      <LayoutDashboard className="w-4 h-4 mr-2" />
+                      Dashboard
+                    </Button>
+                  </Link>
+
                   <Button
                     variant="ghost"
                     size="sm"
@@ -110,6 +109,7 @@ export default function Navigation({
                   <Button size="sm" onClick={onGetStarted}>
                     Continue Onboarding
                   </Button>
+
                   <Button
                     variant="ghost"
                     size="sm"
