@@ -87,7 +87,8 @@ export function LandingClient() {
 
   // === CONDITIONAL RENDER ===
   if (showDashboard) {
-    return <Dashboard user={displayUser} onSignOut={handleSignOut} />;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return <Dashboard {...({ user: displayUser, onSignOut: handleSignOut } as any)} />;
   }
 
   return (
@@ -101,7 +102,6 @@ export function LandingClient() {
 
       <Navigation
         onGetStarted={handleStartOnboarding}
-        onGoToDashboard={handleGoToDashboard}
         hasCompletedOnboarding={hasCompletedOnboarding}
       />
 

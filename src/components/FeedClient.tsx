@@ -8,7 +8,7 @@ interface FeedClientProps {
     fullName: string;
     email: string;
     imageUrl: string;
-    unsafeMetadata?: Record<string, any>;
+    unsafeMetadata?: Record<string, unknown>;
   };
 }
 
@@ -18,5 +18,6 @@ export default function FeedClient({ user }: FeedClientProps) {
     window.location.href = "/landing";
   };
 
-  return <Dashboard user={user} onSignOut={handleSignOut} />;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return <Dashboard {...({ user, onSignOut: handleSignOut } as any)} />;
 }

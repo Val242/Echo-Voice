@@ -12,7 +12,7 @@ export default async function FeedPage() {
   // Pick only plain JSON-serializable fields
   const plainUser = {
     id: user.id,
-    fullName: user.fullName,
+    fullName: user.fullName ?? "Anonymous User",
     email: user.primaryEmailAddress?.emailAddress ?? "",
     imageUrl: user.imageUrl ?? "/avatar.png",
     unsafeMetadata: user.unsafeMetadata ?? {},
